@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetPulse | Diagnostic Suite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+      NetPulse
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-item">Dashboard</a>
+      <a href="#" class="nav-item active">Ping Utility</a>
+      <a href="#" class="nav-item">Traceroute <span style="font-size: 0.7rem; opacity: 0.5;">(BETA)</span></a>
+      <a href="#" class="nav-item">Port Scanner</a>
+      <a href="#" class="nav-item">System Logs</a>
+    </div>
+    <div style="margin-top: auto; font-size: 0.75rem; color: var(--text-secondary);">
+      &copy; 2026 NetPulse Systems<br>v1.2.4-stable
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-label">System Status</span>
+          <span class="stat-value" style="color: var(--success-color); display: flex; align-items: center; gap: 5px;">
+            <span style="width: 8px; height: 8px; background: var(--success-color); border-radius: 50%; display: inline-block;"></span>
+            Operational
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Uptime</span>
+          <span class="stat-value">142:12:04</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Global Nodes</span>
+          <span class="stat-value">24 Online</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Admin Session</span>
+        <div style="width: 32px; height: 32px; background: #30363d; border-radius: 50%; border: 1px solid var(--accent-color);"></div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="card">
+        <h1>Network Ping Utility</h1>
+        <p class="subtitle">Validate end-to-end connectivity to a specific network host or IP address.</p>
+
+        <form method="POST">
+          <div class="form-group">
+            <label for="host">TARGET HOSTNAME / IP ADDRESS</label>
+            <div class="input-wrapper">
+              <input id="host" name="host" type="text" placeholder="e.g. 8.8.8.8 or internal-srv-01" value="{{ host }}" autocomplete="off" />
+              <div class="scan-line"></div>
+            </div>
+          </div>
+          <button type="submit">Execute Diagnostic</button>
+        </form>
+
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <span class="terminal-title">ping_diagnostic_output.log</span>
+          </div>
+          <pre id="output">{% if output is not none %}{{ output }}{% else %}Ready for input...
+Waiting for diagnostic request...<span class="cursor"></span>{% endif %}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple UI interaction logic
+    document.querySelector('form').addEventListener('submit', function() {
+      const output = document.getElementById('output');
+      output.innerHTML = 'Initializing diagnostic connection...<br>Resolving target...<br>Transmitting ICMP packets...<br><span class="cursor"></span>';
+    });
+  </script>
+</body>
+</html>
+

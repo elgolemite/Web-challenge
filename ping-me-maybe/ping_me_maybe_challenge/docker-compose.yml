@@ -1,0 +1,7 @@
+services:
+  ping-me-maybe:
+    build: .
+    container_name: ping_me_maybe
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
